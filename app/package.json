@@ -1,0 +1,26 @@
+{
+  "name": "depsplit",
+  "version": "0.1.0",
+  "description": "DepSplit CLI: dependency-aware payout splits for open-source maintainers on Stellar (Soroban)",
+  "private": true,
+  "type": "module",
+  "license": "Apache-2.0",
+  "engines": {
+    "node": ">=22"
+  },
+  "bin": {
+    "depsplit": "./dist/src/cli.js"
+  },
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "test": "tsc -p tsconfig.json && node --test \"dist/test/*.test.js\"",
+    "depsplit": "node dist/src/cli.js"
+  },
+  "dependencies": {
+    "@stellar/stellar-sdk": "^17.1.0"
+  },
+  "devDependencies": {
+    "@types/node": "^22.10.0",
+    "typescript": "^5.7.0"
+  }
+}

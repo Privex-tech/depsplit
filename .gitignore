@@ -1,0 +1,17 @@
+# Local CLI state written by `depsplit import/register/pay` (seed data under data/seed/ is committed).
+data/plan.json
+data/registry.json
+data/payments.csv
+data/*.csv
+!data/seed/**
+
+# Build output
+target/
+app/dist/
+app/node_modules/
+*.wasm
+
+# Secrets
+.env
+.env.*
+!.env.example

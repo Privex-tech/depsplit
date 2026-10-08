@@ -1,0 +1,16 @@
+[package]
+name = "split_router"
+version = "0.1.0"
+edition = "2021"
+publish = false
+description = "DepSplit split router: dependency-aware payout splits for open-source projects on Soroban"
+
+[lib]
+crate-type = ["cdylib"]
+doctest = false
+
+[dependencies]
+soroban-sdk = { workspace = true }
+
+[dev-dependencies]
+soroban-sdk = { workspace = true, features = ["testutils"] }

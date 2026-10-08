@@ -1,0 +1,41 @@
+{
+  "version": "v1",
+  "entity": {
+    "type": "group",
+    "role": "steward",
+    "name": "utf8-guard maintainers",
+    "email": "team@utf8-guard.example.net",
+    "description": "Two-person group maintaining a SIMD UTF-8 validator. Depends on bufring for streaming input.",
+    "webpageUrl": { "url": "https://utf8-guard.example.net", "wellKnown": "https://utf8-guard.example.net/.well-known/funding-manifest-urls" }
+  },
+  "projects": [
+    {
+      "guid": "UTF8-Guard",
+      "name": "utf8-guard",
+      "description": "Streaming UTF-8 validation and repair with a SIMD fast path.",
+      "repositoryUrl": { "url": "https://codeberg.org/utf8-guard/utf8-guard", "wellKnown": "" },
+      "licenses": ["spdx:MPL-2.0"],
+      "tags": ["unicode", "simd", "streaming"],
+      "x-stellar": {
+        "owner": "GCS6JZTKZPWVDYCVGM537G2O3EXUHSCIYSLSVFXSXLQYM7RLE3HGSHMP",
+        "maintainers": [
+          {
+            "address": "GCEV7CGJWVUHEJFI23QO3GVNDDI5X3H5THGGVT5WNAL6AIKZXAI4NC3M",
+            "bps": "7000",
+            "name": "Ayşe Demir"
+          }
+        ],
+        "dependencies": [
+          { "slug": "bufring", "bps": 3000 }
+        ]
+      }
+    }
+  ],
+  "funding": {
+    "channels": [
+      { "guid": "stellar-depsplit", "type": "other", "address": "stellar:depsplit/utf8-guard", "description": "USDC via DepSplit; 30% flows on to bufring automatically" }
+    ],
+    "plans": [],
+    "history": []
+  }
+}

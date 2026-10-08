@@ -1,0 +1,77 @@
+{
+  "version": "v1",
+  "entity": {
+    "type": "individual",
+    "role": "owner",
+    "name": "Tasnim Chowdhury",
+    "email": "Tasnim.Chowdhury@Example.org",
+    "phone": "",
+    "description": "Maintainer of bufring, a lock-free ring buffer used by parsers and network stacks. Based in Dhaka.",
+    "webpageUrl": { "url": "https://bufring.example.org", "wellKnown": "" }
+  },
+  "projects": [
+    {
+      "guid": "bufring",
+      "name": "bufring ",
+      "description": "Lock-free single-producer/single-consumer ring buffer with zero-copy slices. ",
+      "webpageUrl": { "url": "https://bufring.example.org", "wellKnown": "" },
+      "repositoryUrl": { "url": "https://github.com/bufring/bufring", "wellKnown": "" },
+      "licenses": ["spdx:MIT ", "spdx:Apache-2.0"],
+      "tags": ["rust", "no_std", "ring-buffer", " embedded"],
+      "x-stellar": {
+        "owner": "GALGKYFOG4C7GDMOUAP4NWIT4FLQIEZCJO6FK63UDAMBCSNHM6OUFTVM",
+        "maintainers": [
+          {
+            "address": "GCJXYABCESAM6QJ5RL7ITT7TO5APC2I3JEMW4UHO2PUODE6CJYVIKPJL",
+            "bps": 4500,
+            "name": "Tasnim Chowdhury",
+            "note": "Lives in Bangladesh, which is not on Stripe's Express payout country list: GitHub Sponsors application has been pending since 2024. Cashes out through a local SEP-24 anchor."
+          },
+          {
+            "address": "GAJIRTXU7V3P2O5YIGL5G4454SBHNX4XTBF5IF6XU4XQIHKKC3LQKL22",
+            "bps": 3000,
+            "name": "Priya Natarajan"
+          },
+          {
+            "address": "GD3Z6RCZL6YJ4PQXWYNKMNKMTZIBOPUH26PTVKC5DIYGXZCOMW7IDATV ",
+            "bps": 2500,
+            "name": "Ondřej Sýkora",
+            "note": "prefers to withdraw quarterly"
+          }
+        ],
+        "dependencies": []
+      }
+    }
+  ],
+  "funding": {
+    "channels": [
+      {
+        "guid": "stellar-depsplit",
+        "type": "other",
+        "address": "stellar:depsplit/bufring",
+        "description": "USDC via the DepSplit split router; maintainers withdraw and cash out through an anchor"
+      },
+      {
+        "guid": "github-sponsors",
+        "type": "payment-provider",
+        "address": "https://github.com/sponsors/bufring",
+        "description": "pending since 2024 (unsupported region)"
+      }
+    ],
+    "plans": [
+      {
+        "guid": "monthly-250",
+        "status": "active",
+        "name": "Keep the CI green",
+        "description": "Covers CI minutes and one afternoon a week of triage.",
+        "amount": 250.5,
+        "currency": "USD",
+        "frequency": "monthly",
+        "channels": ["stellar-depsplit"]
+      }
+    ],
+    "history": [
+      { "year": 2025, "income": 0, "expenses": 180, "taxes": 0, "currency": "USD", "description": "domain + CI overage; no income, sponsors payout never arrived" }
+    ]
+  }
+}

@@ -1,0 +1,80 @@
+{
+  "network": "Test SDF Network ; September 2015",
+  "contractId": "CAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABSC4",
+  "projects": {
+    "bufring": {
+      "id": 1,
+      "slug": "bufring",
+      "owner": "GALGKYFOG4C7GDMOUAP4NWIT4FLQIEZCJO6FK63UDAMBCSNHM6OUFTVM",
+      "version": 1,
+      "tables": {
+        "1": {
+          "owner": "GALGKYFOG4C7GDMOUAP4NWIT4FLQIEZCJO6FK63UDAMBCSNHM6OUFTVM",
+          "maintainers": [
+            { "address": "GCJXYABCESAM6QJ5RL7ITT7TO5APC2I3JEMW4UHO2PUODE6CJYVIKPJL", "bps": 4500 },
+            { "address": "GAJIRTXU7V3P2O5YIGL5G4454SBHNX4XTBF5IF6XU4XQIHKKC3LQKL22", "bps": 3000 },
+            { "address": "GD3Z6RCZL6YJ4PQXWYNKMNKMTZIBOPUH26PTVKC5DIYGXZCOMW7IDATV", "bps": 2500 }
+          ],
+          "dependencies": []
+        }
+      }
+    },
+    "utf8-guard": {
+      "id": 2,
+      "slug": "utf8-guard",
+      "owner": "GCS6JZTKZPWVDYCVGM537G2O3EXUHSCIYSLSVFXSXLQYM7RLE3HGSHMP",
+      "version": 1,
+      "tables": {
+        "1": {
+          "owner": "GCS6JZTKZPWVDYCVGM537G2O3EXUHSCIYSLSVFXSXLQYM7RLE3HGSHMP",
+          "maintainers": [{ "address": "GCEV7CGJWVUHEJFI23QO3GVNDDI5X3H5THGGVT5WNAL6AIKZXAI4NC3M", "bps": 7000 }],
+          "dependencies": [{ "slug": "bufring", "bps": 3000, "projectId": 1 }]
+        }
+      }
+    },
+    "quickparse": {
+      "id": 3,
+      "slug": "quickparse",
+      "owner": "GDK3IJY3Z6BHCTRRHEEEH3ABMRDL5NTOTGHT5H44AIM7ASXOKRO5VVG3",
+      "version": 2,
+      "tables": {
+        "1": {
+          "owner": "GDK3IJY3Z6BHCTRRHEEEH3ABMRDL5NTOTGHT5H44AIM7ASXOKRO5VVG3",
+          "maintainers": [
+            { "address": "GDK7SBO7JYLB2VU26E5GM3CFAKWS7HUOYBHG2YWN3QO3XKLL4BR2ZA3A", "bps": 4000 },
+            { "address": "GDOAECAI7JQWDD3MYLSBJWCUQNT7KMRXLUHNWABX37CRK7KZGZ27G23J", "bps": 3000 }
+          ],
+          "dependencies": [
+            { "slug": "utf8-guard", "bps": 2000, "projectId": 2 },
+            { "slug": "bufring", "bps": 1000, "projectId": 1 }
+          ]
+        },
+        "2": {
+          "owner": "GDK3IJY3Z6BHCTRRHEEEH3ABMRDL5NTOTGHT5H44AIM7ASXOKRO5VVG3",
+          "maintainers": [{ "address": "GDK7SBO7JYLB2VU26E5GM3CFAKWS7HUOYBHG2YWN3QO3XKLL4BR2ZA3A", "bps": 5500 }],
+          "dependencies": [
+            { "slug": "utf8-guard", "bps": 3000, "projectId": 2 },
+            { "slug": "bufring", "bps": 1500, "projectId": 1 }
+          ]
+        }
+      }
+    },
+    "quickparse-cli": {
+      "id": 4,
+      "slug": "quickparse-cli",
+      "owner": "GDK3IJY3Z6BHCTRRHEEEH3ABMRDL5NTOTGHT5H44AIM7ASXOKRO5VVG3",
+      "version": 1,
+      "tables": {
+        "1": {
+          "owner": "GDK3IJY3Z6BHCTRRHEEEH3ABMRDL5NTOTGHT5H44AIM7ASXOKRO5VVG3",
+          "maintainers": [
+            { "address": "GDK7SBO7JYLB2VU26E5GM3CFAKWS7HUOYBHG2YWN3QO3XKLL4BR2ZA3A", "bps": 3333 },
+            { "address": "GDOAECAI7JQWDD3MYLSBJWCUQNT7KMRXLUHNWABX37CRK7KZGZ27G23J", "bps": 3333 },
+            { "address": "GAO3HWTIUJL3UHBPMZ7IYHFZATVL5JDCDEBUL4EOP7GVIV4MQSBCIREQ", "bps": 3334 }
+          ],
+          "dependencies": []
+        }
+      }
+    }
+  }
+}

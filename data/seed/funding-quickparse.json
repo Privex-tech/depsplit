@@ -1,0 +1,62 @@
+{
+  "version": "v1",
+  "entity": {
+    "type": "organisation",
+    "role": "owner",
+    "name": "Quickparse Collective",
+    "email": "hello@quickparse.example.com",
+    "description": "Unincorporated collective behind quickparse, a streaming CSV/JSON parser, and its CLI.",
+    "webpageUrl": { "url": "https://quickparse.example.com", "wellKnown": "" }
+  },
+  "x-stellar": {
+    "owner": "GDK3IJY3Z6BHCTRRHEEEH3ABMRDL5NTOTGHT5H44AIM7ASXOKRO5VVG3"
+  },
+  "projects": [
+    {
+      "guid": "quickparse",
+      "name": "quickparse",
+      "description": "Streaming CSV and JSON parser with constant memory use.   ",
+      "repositoryUrl": { "url": "https://github.com/quickparse/quickparse", "wellKnown": "" },
+      "licenses": ["spdx:Apache-2.0"],
+      "tags": ["parser", "csv", "json", "streaming"],
+      "x-stellar": {
+        "maintainers": [
+          { "address": "GDK7SBO7JYLB2VU26E5GM3CFAKWS7HUOYBHG2YWN3QO3XKLL4BR2ZA3A", "bps": 4000, "name": "Mateo Rojas" },
+          { "address": "GDOAECAI7JQWDD3MYLSBJWCUQNT7KMRXLUHNWABX37CRK7KZGZ27G23J", "bps": 3000, "name": "Hanna Lindqvist", "note": "prefers monthly withdrawals" }
+        ],
+        "dependencies": [
+          { "slug": "utf8-guard", "bps": 2000 },
+          { "slug": "bufring", "bps": 1000 }
+        ]
+      }
+    },
+    {
+      "guid": "quickparse-cli",
+      "name": "quickparse CLI",
+      "description": "Command-line front end for quickparse (qp).",
+      "repositoryUrl": { "url": "https://github.com/quickparse/quickparse-cli", "wellKnown": "" },
+      "licenses": ["spdx:Apache-2.0"],
+      "tags": ["cli"],
+      "x-stellar": {
+        "maintainers": [
+          { "address": "GDK7SBO7JYLB2VU26E5GM3CFAKWS7HUOYBHG2YWN3QO3XKLL4BR2ZA3A", "bps": 3333 },
+          { "address": "GDOAECAI7JQWDD3MYLSBJWCUQNT7KMRXLUHNWABX37CRK7KZGZ27G23J", "bps": 3333 },
+          { "address": "GAO3HWTIUJL3UHBPMZ7IYHFZATVL5JDCDEBUL4EOP7GVIV4MQSBCIREQ", "bps": 3334, "name": "Sipho Dlamini" }
+        ],
+        "dependencies": []
+      }
+    }
+  ],
+  "funding": {
+    "channels": [
+      { "guid": "stellar-depsplit", "type": "other", "address": "stellar:depsplit/quickparse", "description": "USDC via DepSplit; 30% flows on to utf8-guard and bufring" },
+      { "guid": "opencollective", "type": "payment-provider", "address": "https://opencollective.com/quickparse", "description": "fiscal host, ~10% fee" }
+    ],
+    "plans": [
+      { "guid": "dependency-fund", "status": "active", "name": "Dependency fund", "description": "Anything paid here is split 70/20/10 between us, utf8-guard and bufring.", "amount": 5000, "currency": "USD", "frequency": "monthly", "channels": ["stellar-depsplit"] }
+    ],
+    "history": [
+      { "year": 2025, "income": 12000, "expenses": 9400, "taxes": 0, "currency": "USD", "description": "Open Collective; 10% host fee not shown separately" }
+    ]
+  }
+}

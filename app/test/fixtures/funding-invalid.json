@@ -1,0 +1,38 @@
+{
+  "version": "v1",
+  "entity": {
+    "type": "individual",
+    "role": "owner",
+    "name": "Broken Manifest"
+  },
+  "projects": [
+    {
+      "guid": "Broken-Project",
+      "name": "",
+      "x-stellar": {
+        "owner": "not-an-address",
+        "maintainers": [
+          { "address": "GDK7SBO7JYLB2VU26E5GM3CFAKWS7HUOYBHG2YWN3QO3XKLL4BR2ZA3A", "bps": 6000 },
+          { "address": "GDK7SBO7JYLB2VU26E5GM3CFAKWS7HUOYBHG2YWN3QO3XKLL4BR2ZA3A", "bps": 39.99 }
+        ],
+        "dependencies": [
+          { "slug": "broken-project", "bps": 0 }
+        ]
+      }
+    },
+    {
+      "guid": "no-extension",
+      "name": "No x-stellar block"
+    },
+    {
+      "guid": "bad slug!",
+      "name": "Bad slug, table short by 10%",
+      "x-stellar": {
+        "owner": "GDK3IJY3Z6BHCTRRHEEEH3ABMRDL5NTOTGHT5H44AIM7ASXOKRO5VVG3",
+        "maintainers": [
+          { "address": "GDOAECAI7JQWDD3MYLSBJWCUQNT7KMRXLUHNWABX37CRK7KZGZ27G23J", "bps": 9000 }
+        ]
+      }
+    }
+  ]
+}
