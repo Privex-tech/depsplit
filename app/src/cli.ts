@@ -279,16 +279,31 @@ async function resolveProject(ref: string, reg: Registry, client: SplitRouterRpc
     const local = Object.values(reg.projects).find((p) => p.id === id);
     if (local) return { id, slug: local.slug, version: local.version };
     if (client && viewer) {
-      const view = await client.view<ProjectView>(projectOp(client.cfg.contractId, id), viewer);
-      return { id, slug: view.slug, version: Number(view.version) };
+      try {
+        const view = await client.view<ProjectView>(projectOp(client.cfg.contractId, id), viewer);
+        return { id, slug: view.slug, version: Number(view.version) };
+      } catch (e) {
+        if (e instanceof Error && e.message.includes("simulation failed")) {
+          throw new Error(`project #${id} not found on-chain`);
+        }
+        throw e;
+      }
     }
     return { id, slug: `#${id}` };
   }
   const local = reg.projects[ref];
   if (local) return { id: local.id, slug: ref, version: local.version };
   if (client && viewer) {
-    const found = await client.view<number | null>(projectIdBySlugOp(client.cfg.contractId, ref), viewer);
-    if (found !== null && found !== undefined) return { id: Number(found), slug: ref };
+    try {
+      const found = await client.view<number | null>(projectIdBySlugOp(client.cfg.contractId, ref), viewer);
+      if (found !== null && found !== undefined) return { id: Number(found), slug: ref };
+    } catch (e) {
+      if (e instanceof Error && e.message.includes("simulation failed")) {
+        // Fall through to the default throw Error
+      } else {
+        throw e;
+      }
+    }
   }
   throw new Error(`project "${ref}" not found (not in registry${client ? " or on-chain" : ""})`);
 }
