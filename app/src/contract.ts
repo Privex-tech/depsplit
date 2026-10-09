@@ -149,6 +149,9 @@ export function projectOp(contractId: string, id: number): xdr.Operation {
 export function projectIdBySlugOp(contractId: string, slug: string): xdr.Operation {
   return new Contract(contractId).call("project_id_by_slug", nativeToScVal(slug, { type: "string" }));
 }
+export function projectCountOp(contractId: string): xdr.Operation {
+  return new Contract(contractId).call("project_count");
+}
 
 /** Decode an invokeHostFunction op back into (function name, native args). Used by tests and `--dry-run`. */
 export function decodeInvocation(op: xdr.Operation): { fn: string; args: unknown[] } {

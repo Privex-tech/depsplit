@@ -32,7 +32,9 @@ import {
   poolOp,
   projectIdBySlugOp,
   projectOp,
+  projectCountOp,
   registerProjectOp,
+  setActiveOp,
   SplitRouterRpc,
   updateSplitsOp,
   withdrawOp,
@@ -454,6 +456,37 @@ async function cmdView(args: ParsedArgs) {
   }
 }
 
+async function cmdToggle(args: ParsedArgs) {
+  const [ref, activeStr] = args.positionals;
+  if (!ref || !activeStr) throw new Error("usage: depsplit toggle <slug|id> <true|false> [--dry-run]");
+  const active = activeStr === "true";
+  const dry = args.flags["dry-run"] === true;
+  const paths = envPaths();
+  const net = networkFromEnv();
+  const reg = await loadRegistry(paths.registry, net.networkPassphrase, net.contractId);
+  const client = dry ? undefined : new SplitRouterRpc(net);
+  const signer = dry ? undefined : signerFromEnv();
+  const project = await resolveProject(ref, reg, client, signer?.publicKey());
+  
+  const op = setActiveOp(net.contractId || PLACEHOLDER_CONTRACT_ID, project.id, active);
+  if (dry) {
+    log(JSON.stringify(decodeInvocation(op), jsonReplacer, 2));
+    return;
+  }
+  const { hash } = await client!.invoke(op, signer!);
+  log(`toggled active=${active} for ${project.slug} (#${project.id}), tx ${hash}`);
+}
+
+async function cmdInfo(args: ParsedArgs) {
+  const net = networkFromEnv();
+  const client = new SplitRouterRpc(net);
+  const viewer = flagString(args.flags, "viewer") ?? process.env.DEPSPLIT_VIEWER ?? signerFromEnv().publicKey();
+  const count = await client.view<number>(projectCountOp(net.contractId), viewer);
+  log(`DepSplit Network Stats:`);
+  log(`  Contract ID: ${net.contractId}`);
+  log(`  Total Projects Registered: ${count}`);
+}
+
 function usage() {
   log(`depsplit — dependency-aware payout splits on Stellar
 
@@ -463,8 +496,10 @@ function usage() {
   pay <slug|id> <amount> --memo "<text>" [--dry-run] pay a project in USDC (payer signs), record locally
   distribute <slug|id> [--dry-run]                  split a project's pool one hop (anyone)
   withdraw [--to G...] [--dry-run]                  pull your balance (recipient signs)
+  toggle <slug|id> <true|false> [--dry-run]         pause or resume a project (owner signs)
   statement <payer> [--out file.csv]                CSV of payments and split lines for the payer's books
   project <slug|id> | balance <addr> | pool <slug|id>   read chain state
+  info                                              show network stats
 
   --dry-run prints the decoded contract invocation without touching the network.`);
 }
@@ -493,6 +528,12 @@ export async function main(argv = process.argv.slice(2)): Promise<number> {
         break;
       case "statement":
         await cmdStatement(args);
+        break;
+      case "toggle":
+        await cmdToggle(args);
+        break;
+      case "info":
+        await cmdInfo(args);
         break;
       case "project":
       case "balance":
