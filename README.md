@@ -162,5 +162,4 @@ stellar/depsplit/
 ## Status
 
 **functional locally** (contract executed in the Soroban host via `cargo test`, wasm built,
-offline CLI tests pass); deployment scripts are **testnet-ready** but were not executed in this
-environment. No users, no deployment, no measurements yet.
+offline CLI tests pass); the `split_router` contract is deployed to Testnet at [CB7XQKDNIADK2LHWJ6W33XOQUC7YWURQ3SOHGHBUUBAQBZ746ZKFE5XE](https://stellar.expert/explorer/testnet/contract/CB7XQKDNIADK2LHWJ6W33XOQUC7YWURQ3SOHGHBUUBAQBZ746ZKFE5XE). No users, no measurements yet.
