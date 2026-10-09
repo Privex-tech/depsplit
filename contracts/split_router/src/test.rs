@@ -1029,7 +1029,7 @@ fn property_random_tables_conserve_value_on_pay_and_distribute() {
             credited += delta;
         }
         let dust = client.balance(&w.token, &owner) - before_owner;
-        assert!(dust >= 0 && dust < 3);
+        assert!((0..3).contains(&dust));
         assert_eq!(credited + dust, pool, "no value created or lost on distribute");
         assert_eq!(client.pool(&w.token, &dep), 0);
     }
