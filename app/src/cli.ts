@@ -385,6 +385,43 @@ async function cmdDistribute(args: ParsedArgs) {
   log("if that project has dependencies, run `depsplit distribute <dep>` for each of them to settle the next hop");
 }
 
+async function cmdDistributeAll(args: ParsedArgs) {
+  const dry = args.flags["dry-run"] === true;
+  if (dry) throw new Error("dry-run not supported for distribute-all (needs chain state to traverse)");
+  const paths = envPaths();
+  const net = networkFromEnv();
+  const token = flagString(args.flags, "token") ?? paths.token;
+  if (!token) throw new Error("USDC_CONTRACT_ID (or --token) is not set");
+  const client = new SplitRouterRpc(net);
+  const signer = signerFromEnv();
+  
+  const count = await client.view<number>(projectCountOp(net.contractId), signer.publicKey());
+  log(`scanning ${count} projects for non-zero pools to distribute...`);
+  
+  let totalDistributed = 0n;
+  for (let pass = 1; pass <= 10; pass++) {
+    let didSomething = false;
+    for (let id = 1; id <= count; id++) {
+      const bal = await client.view<bigint>(poolOp(net.contractId, token, id), signer.publicKey());
+      if (bal > 0n) {
+        const proj = await client.view<ProjectView>(projectOp(net.contractId, id), signer.publicKey());
+        if (proj.active) {
+          log(`[pass ${pass}] distributing ${formatAmount(BigInt(bal))} from project #${id} (${proj.slug})...`);
+          const op = distributePoolOp(net.contractId || PLACEHOLDER_CONTRACT_ID, id, token);
+          const { hash, result } = await client.invoke<bigint>(op, signer);
+          log(`  -> distributed ${formatAmount(BigInt(result))}, tx ${hash}`);
+          totalDistributed += BigInt(result);
+          didSomething = true;
+        } else {
+          log(`[pass ${pass}] skipping project #${id} (${proj.slug}) because it is inactive.`);
+        }
+      }
+    }
+    if (!didSomething) break;
+  }
+  log(`distribute-all complete. Total settled: ${formatAmount(totalDistributed)}`);
+}
+
 async function cmdWithdraw(args: ParsedArgs) {
   const dry = args.flags["dry-run"] === true;
   const paths = envPaths();
@@ -495,6 +532,7 @@ function usage() {
   update-splits <plan.json> <slug> [--dry-run]      new table version for one project (owner signs)
   pay <slug|id> <amount> --memo "<text>" [--dry-run] pay a project in USDC (payer signs), record locally
   distribute <slug|id> [--dry-run]                  split a project's pool one hop (anyone)
+  distribute-all [--token C...]                     recursively distribute all non-zero pools network-wide
   withdraw [--to G...] [--dry-run]                  pull your balance (recipient signs)
   toggle <slug|id> <true|false> [--dry-run]         pause or resume a project (owner signs)
   statement <payer> [--out file.csv]                CSV of payments and split lines for the payer's books
@@ -522,6 +560,9 @@ export async function main(argv = process.argv.slice(2)): Promise<number> {
         break;
       case "distribute":
         await cmdDistribute(args);
+        break;
+      case "distribute-all":
+        await cmdDistributeAll(args);
         break;
       case "withdraw":
         await cmdWithdraw(args);
