@@ -212,6 +212,7 @@ export function parseFundingJson(text: string, source = "funding.json"): Funding
         if (!Array.isArray(ext.dependencies)) {
           problems.push(`${where}.x-stellar.dependencies must be an array`);
         } else {
+          const seenDeps = new Set<string>();
           ext.dependencies.forEach((d, j) => {
             const dw = `${where}.x-stellar.dependencies[${j}]`;
             if (!isRecord(d)) {
@@ -222,6 +223,8 @@ export function parseFundingJson(text: string, source = "funding.json"): Funding
             const depSlug = depRaw.trim().toLowerCase();
             if (depSlug !== depRaw) warnings.push(`${dw}.slug normalised ("${depRaw}" -> "${depSlug}")`);
             if (!depSlug || !SLUG_RE.test(depSlug)) problems.push(`${dw}.slug "${depSlug}" is not a valid slug`);
+            if (seenDeps.has(depSlug)) problems.push(`${dw}.slug "${depSlug}" is duplicated in this project`);
+            seenDeps.add(depSlug);
             const bps = coerceBps(d.bps, dw, problems, warnings);
             dependencies.push({ slug: depSlug, bps });
           });
