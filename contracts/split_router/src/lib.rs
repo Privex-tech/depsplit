@@ -332,7 +332,7 @@ impl SplitRouter {
 
         token::TokenClient::new(&env, &token).transfer(
             &from,
-            &env.current_contract_address(),
+            env.current_contract_address(),
             &amount,
         );
 
@@ -366,12 +366,9 @@ impl SplitRouter {
         if amount <= 0 {
             return Err(Error::EmptyPool);
         }
-        // Zero the pool before crediting so a dependency cycle back to this
+        // Remove the pool before crediting so a dependency cycle back to this
         // project lands in a fresh pool rather than being double counted.
-        env.storage().persistent().set(&key, &0i128);
-        env.storage()
-            .persistent()
-            .extend_ttl(&key, BALANCE_TTL_THRESHOLD, BALANCE_TTL);
+        env.storage().persistent().remove(&key);
 
         let dust = credit_table(&env, &project, &token, amount)?;
         PoolDistributed {
@@ -396,10 +393,7 @@ impl SplitRouter {
         if amount <= 0 {
             return Err(Error::NothingToWithdraw);
         }
-        env.storage().persistent().set(&key, &0i128);
-        env.storage()
-            .persistent()
-            .extend_ttl(&key, BALANCE_TTL_THRESHOLD, BALANCE_TTL);
+        env.storage().persistent().remove(&key);
 
         token::TokenClient::new(&env, &token).transfer(
             &env.current_contract_address(),
